@@ -1,0 +1,46 @@
+#!/bin/bash
+
+set -e
+
+# Make sure we are not root
+if [ "$(id -u)" != '0' ]; then
+   echo 'err: launch should be run as root.' 1>&2
+   exit 1
+fi
+
+# installing some needed packages
+OS_PACKAGES=( wget git rsync gzip gcc-c++ sqlite-devel ruby-devel epel-release yum-utils ruby)
+PACKAGE_MANAGER='yum'
+PACKAGE_MANAGER_CHECK='rpm -q'
+INSTALL_COMMAND='sudo yum -y install'
+MISSING_PACKAGES=''
+for package in ${OS_PACKAGES[@]}; do
+  if ! ${PACKAGE_MANAGER_CHECK} ${package} > /dev/null 2>&1; then
+    MISSING_PACKAGES+="${package} "
+  fi
+done
+if [ -n "${MISSING_PACKAGES}" ]; then
+  echo "Installing some dependencies with ${PACKAGE_MANAGER}, enter sudo password if prompted"
+  ${INSTALL_COMMAND} ${MISSING_PACKAGES}
+fi
+
+
+# Create bundle and exec rake tasks
+which bundle | grep "${RVM_INFO}" > /dev/null 2>&1 || gem install bundler --no-rdoc --no-ri
+gcc_path=$(which gcc)
+bundle check > /dev/null 2>&1 || CC="${gcc_path}" bundle install
+
+# run puppet to install apache + passenger and configure
+bundle exec rake $@
+
+# install/reinstall the sinatra gem and restart apache
+if [ -d /var/www/html/ ]; then
+  cd /var/www/html/
+  rm -rf simple-sinatra-app
+  git clone https://github.com/tnh/simple-sinatra-app.git
+  cd simple-sinatra-app
+  bundle install
+  systemctl restart httpd
+fi
+
+set +e
