@@ -1,5 +1,5 @@
 # reacha
-This is the implementation of dpeloyment of the hellow world aplicaiton as described by the REA challenge
+This is the implementation of dpeloyment of the 'hello world' aplicaiton as described by the REA challenge
 
 
 ### Usage
@@ -15,7 +15,7 @@ $ cd reacha
 $ ./launch
 ```
 
-2. Vagrent
+2. Vagrant
 The project contains a Vagrantfile. This will allow you to use vagrant to start a CentOS7 machine to run the project on.
     - clone the project into your computer
     - cd into the root folder reacha
