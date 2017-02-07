@@ -15,8 +15,7 @@ $ cd reacha
 $ ./launch
 ```
 
-2. Vagrant
-The project contains a Vagrantfile. This will allow you to use vagrant to start a CentOS7 machine to run the project on.
+2. The project contains a Vagrantfile. This will allow you to use vagrant to start a CentOS7 machine to run the project on.
     - clone the project into your computer
     - cd into the root folder reacha
     - Start the vagrant machine (vagrant up)
@@ -27,11 +26,10 @@ $ cd /home/vagrant/sync
 $ ./launch
 ```
 
-
 NOTE: it is assumed that you computer has vagrant and a VM provider installed (such as VirtualBox). This Readme does not cover the setup of vagrant
 
-### Tech
 
+### Tech
 The solution uses:
 - bash scripts
 - ruby
@@ -40,13 +38,13 @@ The solution uses:
 - git
 
 
+
 ### Output
-The launch script uses a combination of bash, ruby and puppet scripts to do the following:
-    - install some prequisites onto the machine: puppet, git and so on...
-    - install some required puppet modules from puppet forge
-    - install apache as well as apache mod passenger 
-    - clone the https://github.com/tnh/simple-sinatra-app repo
-    - install the "hello world" app onto passenger and serve it via apache
+- install some prequisites onto the machine: puppet, git and so on...
+- install some required puppet modules from puppet forge
+- install apache as well as apache mod passenger 
+- clone the https://github.com/tnh/simple-sinatra-app repo
+- install the "hello world" app onto passenger and serve it via apache
 
 
 ### NOTES
